@@ -1,0 +1,87 @@
+FUNCTION_BLOCK
+
+VAR_INPUT
+dlugosc_snu_poprzedniej_nocy : REAL;
+poziom_zmeczenia : REAL;
+ilosc_obowiazkow : REAL;
+END_VAR
+
+VAR_OUTPUT
+dlugosc_drzemki : REAL;
+END_VAR
+
+FUZZIFY dlugosc_snu_poprzedniej_nocy
+TERM krotko := (0, 1) (3.5, 1) (5.5, 0);
+TERM srednio := (4, 0) (5, 0.50) (6, 1) (6.5, 1) (7.5, 0);
+TERM dlugo := (6, 0) (7, 0.50) (8, 1) (9.5, 1)  (12, 0);
+TERM bardzo_dlugo := (8, 0) (12, 1) (23, 1);
+END_FUZZIFY
+
+FUZZIFY poziom_zmeczenia
+TERM maly := (0, 1) (10, 1) (30, 0.50) (50, 0);
+TERM sredni := (25, 0) (40, 1) (60, 1) (75, 0);
+TERM duzy := (60, 0) (75, 0.50) (90, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY ilosc_obowiazkow
+TERM mala := (0, 1) (10, 1) (30, 0.50) (50, 0);
+TERM srednia := (25, 0) (40, 1) (60, 1) (75, 0);
+TERM duza := (60, 0) (75, 0.50) (90, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY dlugosc_drzemki
+TERM krotka := (0, 1) (0.25, 1) (1, 0);
+TERM srednia := (0.8, 0) (1.5, 1) (2, 1) (2.7, 0);
+TERM dluga := (2, 0) (3, 1) (4, 1);
+METHOD : COG;
+DEFAULT := 0;
+END_DEFUZZIFY
+
+
+RULEBLOCK first
+AND: MIN;
+ACT: MIN;
+
+RULE 0: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS srednia;
+RULE 1: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 2: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 3: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 4: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS dluga;
+RULE 5: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS srednia;
+RULE 6: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 7: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 8: IF dlugosc_snu_poprzedniej_nocy IS krotko AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS srednia;
+
+RULE 9: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 10: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 11: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS srednia;
+RULE 12: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 13: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 14: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 15: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 16: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 17: IF dlugosc_snu_poprzedniej_nocy IS srednio AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS srednia;
+
+RULE 18: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS krotka;
+RULE 19: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS krotka;
+RULE 20: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 21: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS srednia;
+RULE 22: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 23: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 24: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS dluga;
+RULE 25: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS srednia;
+RULE 26: IF dlugosc_snu_poprzedniej_nocy IS dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS srednia;
+
+RULE 27: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS krotka;
+RULE 28: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS krotka;
+RULE 29: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS maly AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 30: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS krotka;
+RULE 31: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS krotka;
+RULE 32: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS sredni AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+RULE 33: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS mala THEN dlugosc_drzemki IS srednia;
+RULE 34: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS srednia THEN dlugosc_drzemki IS krotka;
+RULE 35: IF dlugosc_snu_poprzedniej_nocy IS bardzo_dlugo AND poziom_zmeczenia IS duzy AND ilosc_obowiazkow IS duza THEN dlugosc_drzemki IS krotka;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

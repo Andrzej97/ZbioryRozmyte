@@ -29,9 +29,9 @@ public class FuzzySen {
 //            System.out.println(fuzzyRuleSet);
 
         } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("Niepoprawna liczba parametrow. Przyklad: java FuzzySen driverSen.fcl float<dlugosc_snu_poprzedniej_nocy> int<poziom_zmeczemia> int<ilosc_obowiazkow>");
+            System.out.println("Niepoprawna liczba parametrow. Przyklad: java FuzzySen driverSen.fcl float<dlugosc_snu_poprzedniej_nocy> int<poziom_zmeczenia> int<ilosc_obowiazkow>");
         } catch (NumberFormatException ex) {
-            System.out.println("Niepoprawny parametr. Przyklad: java FuzzySen driverSen.fcl float<dlugosc_snu_poprzedniej_nocy> int<poziom_zmeczemia> int<ilosc_obowiazkow>");
+            System.out.println("Niepoprawny parametr. Przyklad: java FuzzySen driverSen.fcl float<dlugosc_snu_poprzedniej_nocy> int<poziom_zmeczenia> int<ilosc_obowiazkow>");
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
